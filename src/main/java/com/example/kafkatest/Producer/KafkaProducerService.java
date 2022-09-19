@@ -13,10 +13,10 @@ public class KafkaProducerService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducerService.class);
 
 	@Autowired
-	private KafkaTemplate<String, User> kafkaTemplate;
+	private KafkaTemplate<Long, User> kafkaTemplate;
 
 	public void send(User user) {
 		LOGGER.info("Sending User Json Serializer : {}", user);
-		kafkaTemplate.send(AppConstants.TOPIC_NAME, user);
+		kafkaTemplate.send(AppConstants.TOPIC_NAME, user.getId(), user);
 	}
 }
