@@ -1,25 +1,24 @@
 package com.example.kafkatest.Controller;
 
-import com.example.kafkatest.Producer.KafkaProducer;
+import com.example.kafkatest.Model.User;
+import com.example.kafkatest.Producer.KafkaProducerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/kafka")
+@RequestMapping("/kafka")
 public class KafkaController {
+	@Autowired
+	private final KafkaProducerService kafkaProducerService;
 
-	private final KafkaProducer kafkaProducer;
-
-	public KafkaController(KafkaProducer kafkaProducer) {
-		this.kafkaProducer = kafkaProducer;
+	public KafkaController(KafkaProducerService kafkaProducerService) {
+		this.kafkaProducerService = kafkaProducerService;
 	}
 
-	@GetMapping("/publish")
-	public ResponseEntity<String> publish(@RequestParam("message") String message){
-		kafkaProducer.sendMessage(message);
+	@PostMapping("/publish")
+	public ResponseEntity<String> sendMessage(@RequestBody User user){
+		kafkaProducerService.send(user);
 		return ResponseEntity.ok("Message sent to kafka topic");
 	}
 }
