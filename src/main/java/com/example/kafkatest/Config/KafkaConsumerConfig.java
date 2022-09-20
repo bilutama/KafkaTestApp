@@ -36,6 +36,8 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, User.class);
+        props.put(ConsumerConfig.RECONNECT_BACKOFF_MS_CONFIG, 10000);
+        props.put(ConsumerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG, 100000);
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
